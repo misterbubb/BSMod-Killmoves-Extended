@@ -729,7 +729,35 @@ if SERVER then
 	end
 	
 	concommand.Add("bsmod_killmove", KMCheck)
-	
+
+	local function ApplyKillmoveDamage(self, target)
+		if not IsValid(target) then return end
+
+		local inflictor = ents.Create("weapon_bsmod_killmove")
+		if IsValid(inflictor) then
+			inflictor:SetPos(target:GetPos())
+			inflictor:SetNoDraw(true)
+			inflictor:SetNotSolid(true)
+			inflictor:Spawn()
+			inflictor:Activate()
+		end
+
+		local dmginfo = DamageInfo()
+		dmginfo:SetAttacker(self)
+		dmginfo:SetInflictor(inflictor or self)
+		dmginfo:SetDamage(999999)
+		dmginfo:SetDamageType(DMG_DIRECT)
+		dmginfo:SetDamageCustom(74819263)
+		dmginfo:SetDamageForce(Vector(0,0,0))
+		dmginfo:SetDamagePosition(target:GetPos())
+
+		target:TakeDamageInfo(dmginfo)
+
+		if IsValid(inflictor) then
+			inflictor:Remove()
+		end
+	end
+
 	-- Now this function has a lot of arguments but that's cuz custom killmoves will use them, nothing else I can do :P
 	function plymeta:KillMove(target, animName, plyKMModel, targetKMModel, plyKMPosition, plyKMAngle, plyKMTime, targetKMTime, moveTarget)
 		if plyKMModel == "" or targetKMModel == "" or animName == "" then return end
@@ -1173,36 +1201,19 @@ if SERVER then
 							target.inKillMove = false
 							
 							if target:IsPlayer() then
-								--target:DrawWorldModel(true)
 								target:UnLock()
-								
+
 								if target:Health() > 0 then
-									local dmginfo = DamageInfo()
-									
-									dmginfo:SetAttacker( self )
-									dmginfo:SetDamageType( DMG_DIRECT )
-									dmginfo:SetDamage( 999999999999 )
-									
-									target:TakeDamageInfo( dmginfo )
-									
-									timer.Simple(0, function() if target:Health() > 0 then target:Kill() end end)
+									ApplyKillmoveDamage(self, target)
+									timer.Simple(0, function()
+										if IsValid(target) and target:Health() > 0 then
+											target:Kill()
+										end
+									end)
 								end
+
 							elseif target:IsNPC() or target:IsNextBot() then
-								--VJBase SNPC fix
-								if target.IsVJBaseSNPC then
-									target:TakeDamage(target:Health(), self, self)
-								end
-								
-								--Set target's health to 0 to make sure certain npcs actually die
-								target:SetHealth(0)
-								
-								local dmginfo = DamageInfo()
-								
-								dmginfo:SetAttacker( self )
-								dmginfo:SetDamageType( DMG_SLASH )
-								dmginfo:SetDamage( 1 )
-								
-								target:TakeDamageInfo( dmginfo )
+								ApplyKillmoveDamage(self, target)
 							end
 							
 							if IsValid(target.kmModel) then 
@@ -1319,6 +1330,7 @@ end
 if CLIENT then
 	if !killMovableBones then killMovableBones = {"ValveBiped.Bip01_Spine", "MiniStrider.body_joint"} end
 	if !killMovableEnts then killMovableEnts = {} end
+	killicon.Add("weapon_bsmod_killmove", "vgui/bsmod/killmove.png", Color(255,255,255))
 	
 	--[[concommand.Add("bsmod_reset_camerasettings", ResetBSModCamSettings, nil, "Reset Thirdperson KillMove Camera Settings.")
 	

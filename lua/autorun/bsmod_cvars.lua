@@ -1,3 +1,22 @@
+-- Kick Settings
+CreateConVar( "bsmod_kick_enabled", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Enable kick." )
+CreateConVar( "bsmod_kick_delay", 0.7, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Kick delay." )
+CreateConVar( "bsmod_kick_damage_min", 10, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Minimum kick damage." )
+CreateConVar( "bsmod_kick_damage_max", 15, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Maximum kick damage." )
+CreateConVar( "bsmod_kick_viewpunch_amount", 2.5, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Amount to viewpunch the camera when kicking." )
+CreateConVar( "bsmod_kick_blowdoor", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Enable kicking doors off hinges." )
+CreateConVar( "bsmod_kick_chancetoblowdoor", 3, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Chance to blow door off hinges (1 in X)." )
+CreateConVar( "bsmod_killmove_by_kicking", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Kicking also initiates killmoves." )
+
+-- Punch Settings
+CreateConVar( "bsmod_punch_delay", 0.35, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE}, "Punch delay." )
+CreateConVar( "bsmod_punch_effect", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE}, "Enable punch smoke effect." )
+CreateConVar( "bsmod_punch_damage_min", 10, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Minimum punch damage." )
+CreateConVar( "bsmod_punch_damage_max", 15, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Maximum punch damage." )
+CreateConVar( "bsmod_punch_viewpunch_amount", 0.5, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Amount to viewpunch the camera when punching." )
+CreateConVar( "bsmod_punch_blocking_resistance", 50, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Percent of damage to resist by blocking." )
+
+-- Killmove Settings
 CreateConVar( "bsmod_killmove_enable_players", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Enable killmoves on Players." )
 CreateConVar( "bsmod_killmove_enable_npcs", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Enable killmoves on NPCs." )
 CreateConVar( "bsmod_killmove_enable_teammates", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Enable killmoves on Team Members." )
@@ -15,7 +34,10 @@ CreateConVar( "bsmod_killmove_fovfx", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLIC
 CreateConVar( "bsmod_killmove_fov_value", 70, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "FOV value to set during killmoves (0 = disabled)." )
 CreateConVar( "bsmod_killmove_lerp_enable", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Enable smooth position/angle lerping during killmoves." )
 CreateConVar( "bsmod_killmove_lerp_speed", 250, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Lerp speed in units per second (250 = default RECOMMENDED)." )
-CreateConVar( "bsmod_killmove_hide_target_weapons", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Hide enemy weapons during killmoves." )
+CreateConVar( "bsmod_killmove_drop_target_weapons", 1, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Drop NPC weapons to the ground when killmove starts" )
+CreateConVar( "bsmod_killmove_hull_fix", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Enable dynamic hull fix to prevent getting stuck after killmoves." )
+CreateConVar( "bsmod_killmove_mute_death_sounds", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Mute NPC death sounds after killmoves." )
+CreateConVar( "bsmod_killmove_use_key", 0, {FCVAR_SERVER_CAN_EXECUTE, FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Trigger killmoves with the Use key (E) instead of a custom bind." )
 
 CreateClientConVar( "bsmod_killmove_indicator", 1, true, false, "Target indicator: 0=Off, 1=Takedown Prompt, 2=Icon Above Head" )
 CreateClientConVar( "bsmod_killmove_key", "", true, false, "Override displayed key for takedown prompt (leave empty to auto-detect)." )
@@ -24,9 +46,17 @@ CreateClientConVar( "bsmod_killmove_hide_head", 1, true, false, "Hide your head 
 CreateClientConVar( "bsmod_debug_calcview", 0, true, false, "List all CalcView hooks for debugging." )
 
 CreateClientConVar( "bsmod_killmove_thirdperson", 0, true, false, "Show KillMoves in thirdperson." )
-CreateClientConVar( "bsmod_killmove_thirdperson_distance", 100, true, false )
-CreateClientConVar( "bsmod_killmove_thirdperson_pitch", 25, true, false )
-CreateClientConVar( "bsmod_killmove_thirdperson_yaw", -35, true, false )
-CreateClientConVar( "bsmod_killmove_thirdperson_offsetup", -15, true, false )
-CreateClientConVar( "bsmod_killmove_thirdperson_offsetright", 0, true, false )
-CreateClientConVar( "bsmod_killmove_thirdperson_randomyaw", 0, true, false )
+CreateClientConVar( "bsmod_killmove_thirdperson_distance", 100, true, false, "Camera distance from player." )
+CreateClientConVar( "bsmod_killmove_thirdperson_pitch", 25, true, false, "Camera pitch angle (up/down tilt)." )
+CreateClientConVar( "bsmod_killmove_thirdperson_yaw", -35, true, false, "Camera yaw angle (left/right rotation)." )
+CreateClientConVar( "bsmod_killmove_thirdperson_offsetup", -15, true, false, "Vertical camera offset." )
+CreateClientConVar( "bsmod_killmove_thirdperson_offsetright", 0, true, false, "Horizontal camera offset." )
+CreateClientConVar( "bsmod_killmove_thirdperson_randomyaw", 0, true, false, "Randomize yaw angle each killmove." )
+CreateClientConVar( "bsmod_killmove_thirdperson_smoothing", 1, true, false, "Enable smooth camera transitions." )
+CreateClientConVar( "bsmod_killmove_thirdperson_smoothspeed", 8, true, false, "Camera smoothing speed (higher = faster)." )
+CreateClientConVar( "bsmod_killmove_thirdperson_orbit", 0, true, false, "Camera slowly orbits around the action." )
+CreateClientConVar( "bsmod_killmove_thirdperson_orbitspeed", 15, true, false, "Orbit speed in degrees per second." )
+CreateClientConVar( "bsmod_killmove_thirdperson_fov", 0, true, false, "Custom FOV for third person (0 = use default)." )
+
+-- Experimental
+CreateClientConVar( "bsmod_killmove_use_chands", 0, true, false, "EXPERIMENTAL: Use viewmodel hands (c_arms) instead of playermodel arms during killmoves." )

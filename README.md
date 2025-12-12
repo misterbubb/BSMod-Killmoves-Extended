@@ -64,8 +64,52 @@ This fork also includes a deep internal cleanup to improve stability, remove leg
 
 ## About This Version
 
-This version **removes the kick and punch system**, entirely focusing the addon purely on killmoves and polish.  
+This version includes an **improved kick and punch system** alongside the core killmove mechanics.  
 The goal is to provide a cleaner, more stable, and consistent experience than the original. The intention is to make killmoves behave similarly to the FarCry game's system.
+
+**Kick System:**
+- Bind with: `bind k bsmod_kick`
+- Can optionally trigger killmoves (configurable)
+- Door kicking with physics
+
+**Punch SWEP:**
+- Find it in the weapons menu under "BSMod Punch"
+- Left/Right click for punches, R to block
+
+---
+
+## Extension Mod Framework (For Developers)
+
+The base mod provides a comprehensive framework for extension mods to add custom killmove animations.
+
+### Position Detection (18 types)
+**Ground:** front, back, left, right  
+**Air/DFA:** front, back, left, right  
+**Water:** front, back, left, right  
+**Cover:** front, back  
+**DFB (Death From Below):** front, back
+
+### Player Variables (available in CustomKillMoves hook)
+**Position:**
+- `ply.bsmod_km_position_type` - Full type (e.g. "water_front", "air_back")
+- `ply.bsmod_km_direction` - Direction only ("front", "back", "left", "right")
+- `ply.bsmod_km_in_water`, `ply.bsmod_km_in_air` - Booleans
+- `ply.bsmod_km_cover_state` - "none", "cover", or "dfb"
+- `ply.bsmod_km_cover_entity` - The cover entity or nil
+
+**Target:**
+- `ply.bsmod_km_target_type` - "player", "hunter", "zombie", "combine", "antlion", "headcrab", "vj_npc", or "human"
+- `ply.bsmod_km_target_crouching` - Boolean
+
+**Weapon:**
+- `ply.bsmod_km_player_weapon_type` - "unarmed", "melee", "pistol", or "rifle"
+
+### Hooks
+- `BSMod_KillMoveStarted(ply, target, animName, positionType)` - Fires when killmove begins
+- `BSMod_KillMoveEnded(ply, target, positionType)` - Fires when killmove ends
+- `CustomKillMoves(ply, target, angleAround)` - Return killmove data table to override
+- `CustomKMEffects(ply, animName, targetModel)` - Add sounds/effects for your animations
+- `KMRagdoll(entity, ragdoll, animName)` - Modify ragdoll physics after killmove
 
 ---
 
